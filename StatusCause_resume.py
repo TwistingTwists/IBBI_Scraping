@@ -104,7 +104,7 @@ for k,v in sample.items():
 
 
 
-def StatusCause( start_date, end_date, filename="StatusCause",bb=364886, ss=364886):
+def StatusCause( start_date, end_date, filename="StatusCause",bb=364886, ss=0):
     start, end = datetime.datetime.strptime(
             start_date, '%d %m %Y'), datetime.datetime.strptime(end_date, '%d %m %Y')
 
