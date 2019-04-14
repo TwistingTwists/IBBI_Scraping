@@ -3,43 +3,15 @@
 
 import requests
 from bs4 import BeautifulSoup
-import csv
-import fire
 import re
+import fire
+
 from termcolor import colored
 from collections import OrderedDict 
+from req import getSoupFromURL, tablesToCSV
 
 # for datetime in urls
 import datetime
-
-####################################
-# general funcs
-####################################
-
-
-
-def getSoupFromURL(url):
-    getme = requests.get(url, verify=False)
-    # soup = BeautifulSoup(getme.content, "html5lib")
-    soup = BeautifulSoup(getme.content, "lxml")
-    return soup
-
-
-def tablesToCSV(table, filename):
-    output_rows = []
-    for table_row in table.findAll('tr'):
-        columns = table_row.findAll('td')
-        output_row = []
-        for column in columns:
-            output_row.append(column.text)
-        output_rows.append(output_row)
-
-    with open(filename + '.csv', 'a') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(output_rows)
-    print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red','on_yellow',['bold']))
-
 
 ####################################
 # datetime for urls
@@ -99,8 +71,6 @@ sample = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396
 nclt_StatusofCause_dict = OrderedDict() 
 for k,v in sample.items():
     nclt_StatusofCause_dict[k] = v
-
-
 
 
 
