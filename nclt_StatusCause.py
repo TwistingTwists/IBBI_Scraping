@@ -37,7 +37,7 @@ def tablesToCSV(table, filename):
         writer = csv.writer(csvfile)
         writer.writerows(output_rows)
     print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red'))
+                  " with additional " + str(len(output_rows)) + '\n\n', 'red',['bold']))
 
 
 ####################################
@@ -91,30 +91,30 @@ def make_nclt_StatusCauseurl(bench, sub_bench, date):
 ###########################################
 # Status Cause List
 ###########################################
-nclt_StatusofCause_dict = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
-# nclt_StatusofCause_dict = {5378: [5396, 5395, 5394]}
+# nclt_StatusofCause_dict = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
+nclt_StatusofCause_dict = { 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
 
 
 def StatusCause(start_date, end_date, filename="StatusCause"):
+    start, end = datetime.datetime.strptime(
+            start_date, '%d %m %Y'), datetime.datetime.strptime(end_date, '%d %m %Y')
+
+    dates = dr(start, end)
+    print(colored(dates, 'yellow'))
+
     for b, sub in nclt_StatusofCause_dict.items():
 
         # convert bench , sub_bench string to year
         benchh = str(b)
         sub = list(map(str, sub))
 
-        start, end = datetime.datetime.strptime(
-            start_date, '%d %m %Y'), datetime.datetime.strptime(end_date, '%d %m %Y')
-
-        dates = dr(start, end)
-        print(colored(dates, 'yellow'))
-
+        
         # all dates for each sub bench corresponding to original bench
         for s in sub:
-            urls = [make_nclt_StatusCauseurl(benchh, s, d) for d in dates]
+            urls = [(make_nclt_StatusCauseurl(benchh, s, d)) for d in dates]
             print(colored("Total urls : " + str(len(urls)), 'cyan'))
             for (i, url) in enumerate(urls):
-                print(colored("parsing : " + str(i) + "  " + url, 'green'))
-
+                print(colored("\nparsing: " + " bench:"+ str(b) + " Sub:"+  str(s) + " date: " + str(dates[i]) + "  " + url, 'green'))
                 soup = getSoupFromURL(url)
                 tables = soup.find_all('table')
 
