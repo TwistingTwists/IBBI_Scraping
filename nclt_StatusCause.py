@@ -37,7 +37,7 @@ def tablesToCSV(table, filename):
         writer = csv.writer(csvfile)
         writer.writerows(output_rows)
     print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red',['bold']))
+                  " with additional " + str(len(output_rows)) + '\n\n', 'red','on_yellow',['bold']))
 
 
 ####################################
@@ -92,7 +92,7 @@ def make_nclt_StatusCauseurl(bench, sub_bench, date):
 # Status Cause List
 ###########################################
 # nclt_StatusofCause_dict = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
-nclt_StatusofCause_dict = { 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
+nclt_StatusofCause_dict = { 5374 : [5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
 
 
 def StatusCause(start_date, end_date, filename="StatusCause"):
