@@ -7,6 +7,7 @@ from termcolor import colored
 from collections import OrderedDict
 # for datetime in urls
 import datetime
+from req import no_ssl_verification
 
 ####################################
 # general funcs
@@ -14,9 +15,10 @@ import datetime
 
 
 def getSoupFromURL(url):
-    getme = requests.get(url, verify=False)
-    # soup = BeautifulSoup(getme.content, "html5lib")
-    soup = BeautifulSoup(getme.content, "lxml")
+    with no_ssl_verification():
+        getme = requests.get(url, verify=False)
+        # soup = BeautifulSoup(getme.content, "html5lib")
+        soup = BeautifulSoup(getme.content, "lxml")
     return soup
 
 
