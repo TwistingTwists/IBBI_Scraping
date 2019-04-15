@@ -7,35 +7,7 @@ from termcolor import colored
 from collections import OrderedDict
 # for datetime in urls
 import datetime
-from req import no_ssl_verification
-
-####################################
-# general funcs
-####################################
-
-
-def getSoupFromURL(url):
-    with no_ssl_verification():
-        getme = requests.get(url, verify=False)
-        # soup = BeautifulSoup(getme.content, "html5lib")
-        soup = BeautifulSoup(getme.content, "lxml")
-    return soup
-
-
-def tablesToCSV(table, filename):
-    output_rows = []
-    for table_row in table.findAll('tr'):
-        columns = table_row.findAll('td')
-        output_row = []
-        for column in columns:
-            output_row.append(column.text)
-        output_rows.append(output_row)
-
-    with open(filename + '.csv', 'a') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(output_rows)
-    print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red', 'on_yellow', ['bold']))
+from req import no_ssl_verification, getSoupFromURL, tablesToCSV
 
 
 ####################################
@@ -99,14 +71,26 @@ def getLastPage(soup, el, clases):
         return int(re.findall('\d+', str(data[0]))[0])
 
 
-def ibbi(bench, title, filename, lastPage=4):
+def nclt(bench, title, filename, yr="2018", lastPage=4):
     firstPage = 1
 
     # get last page from webpage itself
-    # lastPage = getLastPage(soup, 'li', 'last')
 
-    for i in range(firstPage, lastPage+1):
-        url = make_nclt_url(bench, title, i)
+    # url = make_nclt_url(bench, title, yr, firstPage)
+    # print(url + "\n")
+    # soup = getSoupFromURL(url)
+
+    # lp = getLastPage(soup, 'li', 'last')
+    # if lp:
+    #     lastPage = lp
+    #     print("\nUser LastPage Ignored. Actual lastpage = ", str(lastPage))
+    # else:
+    #     lastPage = firstPage
+    #     print("only one page!\n", lastPage)
+
+    for pg in range(firstPage, lastPage+1):
+        url = make_nclt_url(bench, title, yr, pg)
+        print(url + "\n")
         soup = getSoupFromURL(url)
         tables = soup.find_all('table')
 
@@ -117,5 +101,10 @@ def ibbi(bench, title, filename, lastPage=4):
                 tablesToCSV(t, filename)
 
 
+def nclt_allBench(title, filename, yr="2018", lastPage=4):
+    bench = [5365, 5366, 5367, 5368, 5369, 5370, 5371, 5372,
+             5373, 5374, 5375, 5376, 5377, 5378, 119125, 364886]
+
+
 if __name__ == '__main__':
-    fire.Fire(NCLT)
+    fire.Fire(nclt)

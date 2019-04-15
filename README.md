@@ -34,6 +34,15 @@
 
 1. `python ibbi.py --query "a" --ann 2 --filename outp --lastPage 4`
 
-> --ann 1 = "Public+Announcement+of+Corporate+Insolvency+Resolution+Process"
-> --ann 2 : "Public+Announcement+of+Liquidation+Process",
-> --ann 3: "Public+Announcement+of+Voluntary+Liquidation+Process",
+>
+
+    --ann 1 = "Public+Announcement+of+Corporate+Insolvency+Resolution+Process"
+    --ann 2 : "Public+Announcement+of+Liquidation+Process",
+    --ann 3: "Public+Announcement+of+Voluntary+Liquidation+Process",
+
+## for NCLT, the file
+
+#### filename : nclt.py
+
+1. `python nclt.py --bench \"5378\" --title \"1641\" --yr \"2018\" --filename out`
+2. `python nclt.py --bench "5378" --title "1641" --yr "2018" --filename out`

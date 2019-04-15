@@ -46,15 +46,6 @@ def make_IBBI_urls(title, page=1):
 # query = args.istr
 
 
-def garbage():
-    [ibbi_CIRP, ibbi_LP, ibbi_VLP] = make_IBBI_urls(query, pageNo)
-
-    # currently only for CIRP
-    soup = getSoupFromURL(ibbi_CIRP)
-
-    # get table from ibbi.gov.in page after query has been run
-    tables = soup.find_all('table')
-
 
 def soupSwitch(argument, urls):
     [ibbi_CIRP, ibbi_LP, ibbi_VLP] = urls
