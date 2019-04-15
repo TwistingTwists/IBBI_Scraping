@@ -112,4 +112,4 @@ def nclt_allBench(start, end, filename, yr = 2018, lastPage = 4):
 
 
 if __name__ == '__main__':
-    fire.Fire(nclt)
+    fire.Fire(nclt_allBench)
