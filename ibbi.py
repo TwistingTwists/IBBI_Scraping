@@ -5,7 +5,7 @@ import csv
 import fire
 import re
 from termcolor import colored
-
+from req import getSoupFromURL, tablesToCSV
 # for datetime in urls
 import datetime
 
@@ -37,32 +37,6 @@ def make_IBBI_urls(title, page=1):
 
     # [ibbi_CIRP, ibbi_LP, ibbi_VLP] = getIBBIurls(Switching, title, str(page))
     return getIBBIurls(Switching, title, str(page))
-
-
-####################################
-# general funcs
-####################################
-def getSoupFromURL(url):
-    getme = requests.get(url, verify=False)
-    # soup = BeautifulSoup(getme.content, "html5lib")
-    soup = BeautifulSoup(getme.content, "lxml")
-    return soup
-
-
-def tablesToCSV(table, filename="output "):
-    output_rows = []
-    for table_row in table.findAll('tr'):
-        columns = table_row.findAll('td')
-        output_row = []
-        for column in columns:
-            output_row.append(column.text)
-        output_rows.append(output_row)
-
-    with open(filename + '.csv', 'a') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(output_rows)
-    print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red'))
 
 
 ###########################################

@@ -25,3 +25,11 @@
 > ####### explanation :
 
     --ss = sub bench within bench name (must have `--bb` as option.)
+
+---
+
+## for Status Cause List, the file :
+
+#### filename : ibbi.py
+
+1. python ibbi.py --query a --filename outp --lastPage 4

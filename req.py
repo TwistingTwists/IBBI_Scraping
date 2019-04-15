@@ -64,4 +64,4 @@ def tablesToCSV(table, filename):
         writer = csv.writer(csvfile)
         writer.writerows(output_rows)
     print(colored("Written " + filename + ".csv " +
-                  " with additional " + str(len(output_rows)) + '\n\n', 'red', 'on_yellow', ['bold']))
+                  " with additional " + str(len(output_rows)) + '\n', 'red', 'on_yellow', ['bold']))
