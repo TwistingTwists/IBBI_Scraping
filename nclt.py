@@ -48,9 +48,9 @@ def dr(start_date, end_date):
 
 def make_nclt_url(bench, title, year, page=1):
 
-    field_bench_target_id = bench
-    title = title
-    year = year
+    # convert to string
+    field_bench_target_id, title, year = list(map(str, [bench, title, year]))
+
     if page == 1:
         nclt_url = "https://nclt.gov.in/order-judgements?field_bench_target_id=" + field_bench_target_id + "&field_search_date_value_1%5Bmin%5D%5Bdate%5D=&field_search_date_value_1%5Bmax%5D%5Bdate%5D=&title=" + title + \
             "&field_search_date_value%5Bvalue%5D%5Byear%5D=" + year + \
@@ -71,7 +71,7 @@ def getLastPage(soup, el, clases):
         return int(re.findall('\d+', str(data[0]))[0])
 
 
-def nclt(bench, title, filename, yr="2018", lastPage=4):
+def nclt(bench, title, filename, yr=2018, lastPage=4):
     firstPage = 1
 
     # get last page from webpage itself
@@ -90,9 +90,10 @@ def nclt(bench, title, filename, yr="2018", lastPage=4):
 
     for pg in range(firstPage, lastPage+1):
         url = make_nclt_url(bench, title, yr, pg)
-        print(url + "\n")
-        soup = getSoupFromURL(url)
-        tables = soup.find_all('table')
+        print(colored(" pageNo: " + str(pg) + "\n", 'green'))
+        print(url))
+        soup=getSoupFromURL(url)
+        tables=soup.find_all('table')
 
         if len(tables) == 1:
             tablesToCSV(tables[0], filename)
@@ -101,9 +102,13 @@ def nclt(bench, title, filename, yr="2018", lastPage=4):
                 tablesToCSV(t, filename)
 
 
-def nclt_allBench(title, filename, yr="2018", lastPage=4):
-    bench = [5365, 5366, 5367, 5368, 5369, 5370, 5371, 5372,
+def nclt_allBench(start, end, filename, yr = 2018, lastPage = 4):
+    bench=[5365, 5366, 5367, 5368, 5369, 5370, 5371, 5372,
              5373, 5374, 5375, 5376, 5377, 5378, 119125, 364886]
+    for cp in range(start, end):
+        for b in bench:
+            print(colored("\n Bench: " + str(b) + " cp: " + str(cp), 'magenta'))
+            nclt(b, cp, filename, yr, lastPage)
 
 
 if __name__ == '__main__':
