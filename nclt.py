@@ -71,7 +71,7 @@ def getLastPage(soup, el, clases):
         return int(re.findall('\d+', str(data[0]))[0])
 
 
-def nclt(bench, title, filename, yr=2018, lastPage=4):
+def nclt(bench, title, filename, yr=2018, lastPage=5):
     firstPage = 1
 
     # get last page from webpage itself
@@ -102,7 +102,7 @@ def nclt(bench, title, filename, yr=2018, lastPage=4):
                 tablesToCSV(t, filename)
 
 
-def nclt_allBench(start, end, filename, yr=2018, lastPage=4):
+def nclt_allBench(start, end, filename, yr=2018, lastPage=5):
     bench = [5365, 5366, 5367, 5368, 5369, 5370, 5371, 5372,
              5373, 5374, 5375, 5376, 5377, 5378, 119125, 364886]
     for cp in range(start, end):
