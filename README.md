@@ -44,7 +44,7 @@
 
 #### filename : nclt.py
 
-1. `python nclt.py --yr 2018 --filename out --start 1600 --end 1602`
+1. `python nclt.py --yr 2018 --filename out --start 1641 --end 1642`
 
 `--filename 4test` is not valid
 `--filename test4` is valid
