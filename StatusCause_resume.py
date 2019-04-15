@@ -7,7 +7,7 @@ import re
 import fire
 
 from termcolor import colored
-from collections import OrderedDict 
+from collections import OrderedDict
 from req import getSoupFromURL, tablesToCSV
 
 # for datetime in urls
@@ -64,24 +64,25 @@ def make_nclt_StatusCauseurl(bench, sub_bench, date):
 ###########################################
 # Status Cause List
 ###########################################
-# nclt_StatusofCause_dict = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
+# nclt_StatusofCause_dict = { 364886 : [364887] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
 # nclt_StatusofCause_dict = { 5374 : [5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
 
-sample = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595] , 5378 : [5396,5395,5394] , 5376 : [5393,5392] , 5374 : [5391,5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386] , 5377: [5385] , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
-nclt_StatusofCause_dict = OrderedDict() 
-for k,v in sample.items():
-    nclt_StatusofCause_dict[k] = v
+#sample = { 364886 : [364886] , 119125 : [119126] , 5377 : [28595 ,5385] , 5378 : [5396, 5395, 5394] , 5376 : [5393, 5392] , 5374 : [5391, 5390] , 5372 : [5389] , 5370 :[5388] , 5368 : [5387], 5366 : [5386]  , 5373 : [5384], 5371 : [5383] , 5369 : [5382] , 5367 : [5381] , 5375 : [5380] , 5365 : [5379] }
+# for k, v in sample.items():
+#     nclt_StatusofCause_dict[k] = v
+
+nclt_StatusofCause_dict = OrderedDict([(364886, [364887]), (119125, [119126]), (5378, [5396, 5395, 5394]), (5377, [28595, 5385]), (5376, [5393, 5392]), (5375, [5380]), (5374, [
+                                      5391, 5390]), (5373, [5384]), (5372, [5389]), (5371, [5383]), (5370, [5388]), (5369, [5382]), (5368, [5387]), (5367, [5381]), (5366, [5386]), (5365, [5379])])
 
 
-
-def StatusCause( start_date, end_date, filename="StatusCause",bb=364886, ss=0):
+def StatusCause(start_date, end_date, filename="StatusCause", bb=364886, ss=0):
     start, end = datetime.datetime.strptime(
-            start_date, '%d %m %Y'), datetime.datetime.strptime(end_date, '%d %m %Y')
+        start_date, '%d %m %Y'), datetime.datetime.strptime(end_date, '%d %m %Y')
 
     dates = dr(start, end)
-    print(colored(dates,'yellow'))
+    print(colored(dates, 'yellow'))
     # print(colored(dates[0].strftime('%d %m %Y') + " to " + dates[:-1].strftime('%d %m %Y'), 'yellow'))
-    
+
     # ----------# ----------# ----------# ----------# ----------
     # modified original dictioinary according to user input bench and sub_bench for resuming
     keys = list(nclt_StatusofCause_dict)
@@ -89,26 +90,26 @@ def StatusCause( start_date, end_date, filename="StatusCause",bb=364886, ss=0):
     todel = keys[:bb_index]
     current = nclt_StatusofCause_dict[keys[bb_index]]
     if ss in current:
-            current.remove(ss)
-            nclt_StatusofCause_dict[keys[bb_index]] = current
+        current.remove(ss)
+        nclt_StatusofCause_dict[keys[bb_index]] = current
 
-    for k in todel :
+    for k in todel:
         del nclt_StatusofCause_dict[k]
 
     # ----------# ----------# ----------# ----------# ----------
-    print(colored(nclt_StatusofCause_dict,'magenta'))
+    print(colored(nclt_StatusofCause_dict, 'magenta'))
     for b, sub in nclt_StatusofCause_dict.items():
         # convert bench , sub_bench string to year
         benchh = str(b)
         sub = list(map(str, sub))
 
-        
         # all dates for each sub bench corresponding to original bench
         for s in sub:
             urls = [(make_nclt_StatusCauseurl(benchh, s, d)) for d in dates]
             print(colored("Total urls : " + str(len(urls)), 'cyan'))
             for (i, url) in enumerate(urls):
-                print(colored("\nparsing: " + " bench:"+ str(b) + " Sub:"+  str(s) + " date: " + str(dates[i]) + "  " + url, 'green'))
+                print(colored("\nparsing: " + " bench:" + str(b) + " Sub:" +
+                              str(s) + " date: " + str(dates[i]) + "  " + url, 'green'))
                 soup = getSoupFromURL(url)
                 tables = soup.find_all('table')
 
