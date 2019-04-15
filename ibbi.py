@@ -56,16 +56,29 @@ def garbage():
     tables = soup.find_all('table')
 
 
+def soupSwitch(argument, urls):
+    [ibbi_CIRP, ibbi_LP, ibbi_VLP] = urls
+    switcher = {
+        1: getSoupFromURL(ibbi_CIRP),
+        2: getSoupFromURL(ibbi_LP),
+        3: getSoupFromURL(ibbi_VLP),
+    }
+    return switcher.get(argument, getSoupFromURL(ibbi_CIRP))
+
 # which = str of options among CIRP, LP, VLP
-def ibbi(query, filename, lastPage=4):
+
+
+def ibbi(query, filename, ann, lastPage=4):
     firstPage = 1
 
     # get last page from webpage itself
     # lastPage = getLastPage(soup, 'li', 'last')
 
     for i in range(firstPage, lastPage+1):
-        [ibbi_CIRP, ibbi_LP, ibbi_VLP] = make_IBBI_urls(query, i)
-        soup = getSoupFromURL(ibbi_CIRP)
+        url_list = make_IBBI_urls(query, i)
+        # url_list = [ibbi_CIRP, ibbi_LP, ibbi_VLP]
+        soup = soupSwitch(ann, url_list)
+
         tables = soup.find_all('table')
 
         if len(tables) == 1:
